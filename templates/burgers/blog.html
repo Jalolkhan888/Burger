@@ -1,0 +1,74 @@
+<!-- Blog Start -->
+{% extends 'base.html' %}
+{% block title %} {{title}} {% endblock title %}
+{% block content %}
+<div class="blog">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Food Blog</p>
+            <h2>Latest From Food Blog</h2>
+        </div>
+        <div class="row">
+            {% block blogs %}
+            {% for blog in blog_list %}
+            <div class="col-md-6">
+                <div class="blog-item">
+                    <div class="blog-img">
+                        <img src="{{ blog.image.url }}" alt="Blog">
+                    </div>
+                    <div class="blog-content">
+                        <h2 class="blog-title">{{blog.title}}</h2>
+                        <div class="blog-meta">
+                            <p><i class="far fa-user"></i>Admin</p>
+                            <p><i class="far fa-list-alt"></i>{{blog.cat}}</p>
+                            <p><i class="far fa-calendar-alt"></i>{{blog.time_create}}</p>
+                            <p><i class="far fa-comments"></i>10</p>
+                        </div>
+                        <div class="blog-text">
+                            <p>
+                                {{blog.content|linebreaks|truncatewords:25}}
+                            </p>
+                            <a class="btn custom-btn" href="{{blog.get_absolute_url}}">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endblock blogs %}
+        {% if page_obj.has_other_pages %}
+        <div class="row">
+            <div class="col-12">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                    {% endif %}
+
+                    {% for p in paginator.page_range %}
+                    {% if page_obj.number == p %}
+                    <li class="page-item active"><a class="page-link">{{p}}</a></li>
+                    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                    <li class="page-item"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a>
+                    </li>
+                    {% endif %}
+<!--                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>-->
+<!--                    <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--                    <li class="page-item active"><a class="page-link" href="#">2</a></li>-->
+<!--                    <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                    <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock content %}
+<!-- Blog End -->

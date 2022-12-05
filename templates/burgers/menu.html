@@ -1,0 +1,73 @@
+<!-- Food Start -->
+{% extends 'base.html' %}
+{% block title %} {{title}} {% endblock title %}
+{% load static %}
+{% block content %}
+<div class="food mt-0">
+    <div class="container">
+        <div class="row align-items-center">
+            {% for category in categories %}
+            <div class="col-md-4">
+                <div class="food-item">
+                    <i class="flaticon-{{category.icon}}"></i>
+                    <h2>{{category.name}}</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet elit. Phasel nec pretium mi. Curabit facilis ornare velit non vulputa. Aliquam metus tortor auctor quis sem.
+                    </p>
+                    <a href="{{category.get_absolute_url}}">View Menu</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Food End -->
+
+
+<!-- Menu Start -->
+<div class="menu">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Food Menu</p>
+            <h2>Delicious Food Menu</h2>
+        </div>
+
+        <div class="menu-tab">
+
+            <ul class="nav nav-pills justify-content-center">
+                {% for category in categories %}
+                <li class="nav-item">
+                    <a class="nav-link {% if category.pk is cat_id %}active{% endif %}" href="{{ category.get_absolute_url }}">{{category.name}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content">
+                <div id="burgers" class="container tab-pane active">
+                    <div class="row">
+                        {% for food in foods %}
+                        <div class="col-lg-7 col-md-12">
+                            <div class="menu-item">
+                                <div class="menu-img">
+                                    <img src="{{food.image.url}}" alt="Image">
+                                </div>
+                                <div class="menu-text">
+                                    <h3><span>{{food.title}}</span> <strong>${{food.price}}.00</strong></h3>
+                                    <p>{{food.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-lg-5 d-none d-lg-block">
+                            <img src="{% static 'img/menu-burger-img.jpg' %}" alt="Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+<!-- Menu End -->
